@@ -1,4 +1,5 @@
 import 'package:bubble_trouble/button.dart';
+import 'package:bubble_trouble/player.dart';
 import 'package:flutter/material.dart';
 
 // It is a stateful widget because the game will have lots of moving parts
@@ -13,11 +14,15 @@ class _HomePageState extends State<HomePage> {
   double playerX = 0;
 
   void moveLeft() {
-
+    setState(() {
+      playerX -= 0.1;
+    });
   }
 
   void moveRight() {
-
+    setState(() {
+      playerX += 0.1;
+    });
   }
 
   void fireMissile() {
@@ -37,16 +42,8 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      alignment: Alignment(playerX, 1),
-                      child: Container(
-                        color: Colors.deepPurple,
-                        height: 50,
-                        width: 50,
-                      )
-                    ),
+                  MyPlayer(
+                    playerX: playerX
                   )
                 ],
               )
