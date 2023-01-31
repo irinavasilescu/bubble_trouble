@@ -8,6 +8,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  // Player variables (for left-right movement)
+  double playerX = 0;
+
+  void moveLeft() {
+
+  }
+
+  void moveRight() {
+
+  }
+
+  void fireMissile() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     // In the column will be two expanded widgets (one on top of each other)
@@ -21,12 +37,16 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: Stack(
                 children: [
-                  Container(
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
                     child: Container(
-                      color: Colors.blue,
-                      height: 50,
-                      width: 50,
-                    )
+                      alignment: Alignment(playerX, 1),
+                      child: Container(
+                        color: Colors.deepPurple,
+                        height: 50,
+                        width: 50,
+                      )
+                    ),
                   )
                 ],
               )
@@ -39,9 +59,18 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                MyButton(icon: Icons.arrow_back),
-                MyButton(icon: Icons.arrow_upward),
-                MyButton(icon: Icons.arrow_forward),
+                MyButton(
+                  icon: Icons.arrow_back,
+                  function: moveLeft,
+                ),
+                MyButton(
+                  icon: Icons.arrow_upward,
+                  function: fireMissile,
+                ),
+                MyButton(
+                  icon: Icons.arrow_forward,
+                  function: moveRight,
+                ),
               ]
             )
           )
