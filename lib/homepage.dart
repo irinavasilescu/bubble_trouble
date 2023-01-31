@@ -15,18 +15,37 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         Expanded(
-            flex: 3, // This container takes up 75% of the space
-            child: Container(color: Colors.pink[100])),
+          flex: 3, // This container takes up 75% of the space
+          child: Container(
+            color: Colors.pink[100],
+            child: Center(
+              child: Stack(
+                children: [
+                  Container(
+                    child: Container(
+                      color: Colors.blue,
+                      height: 50,
+                      width: 50,
+                    )
+                  )
+                ],
+              )
+            )
+          ),
+        ),
         Expanded(
-            child: Container(
-                color: Colors.grey,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MyButton(icon: Icons.arrow_back),
-                      MyButton(icon: Icons.arrow_upward),
-                      MyButton(icon: Icons.arrow_forward),
-                    ])))
+          child: Container(
+            color: Colors.grey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MyButton(icon: Icons.arrow_back),
+                MyButton(icon: Icons.arrow_upward),
+                MyButton(icon: Icons.arrow_forward),
+              ]
+            )
+          )
+        )
       ],
     );
   }
