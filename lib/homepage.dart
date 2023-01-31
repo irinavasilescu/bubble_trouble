@@ -1,3 +1,4 @@
+import 'package:bubble_trouble/button.dart';
 import 'package:flutter/material.dart';
 
 // It is a stateful widget because the game will have lots of moving parts
@@ -16,7 +17,16 @@ class _HomePageState extends State<HomePage> {
         Expanded(
             flex: 3, // This container takes up 75% of the space
             child: Container(color: Colors.pink[100])),
-        Expanded(child: Container(color: Colors.grey))
+        Expanded(
+            child: Container(
+                color: Colors.grey,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      MyButton(),
+                      MyButton(),
+                      MyButton(),
+                    ])))
       ],
     );
   }
