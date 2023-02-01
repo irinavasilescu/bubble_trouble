@@ -15,7 +15,7 @@ class MyBall extends StatelessWidget {
                 height: 25,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/star.png'),
+                        image: AssetImage('assets/planet.png'),
                         fit: BoxFit.fill
                     )
                 )

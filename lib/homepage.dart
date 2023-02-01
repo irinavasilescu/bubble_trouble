@@ -209,6 +209,18 @@ class _HomePageState extends State<HomePage> {
                             child: Center(
                                 child: Stack(
                                     children: [
+                                        Center(
+                                            child: Container(
+                                                width: 85,
+                                                height: 75,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage('assets/heart.png'),
+                                                        fit: BoxFit.fill
+                                                    )
+                                                )
+                                            )
+                                        ),
                                         MyBall(ballX: ballX, ballY: ballY),
                                         MyMissile(height: missileHeight, missileX: missileX),
                                         MyPlayer(playerX: playerX)
