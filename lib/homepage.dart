@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:bubble_trouble/ball.dart';
 import 'package:bubble_trouble/button.dart';
@@ -211,14 +212,35 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                         Center(
                                             child: Container(
-                                                width: 85,
-                                                height: 75,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image: AssetImage('assets/heart.png'),
-                                                        fit: BoxFit.fill
-                                                    )
-                                                )
+                                                height: 300,
+                                                child: Column(
+                                                    children: [
+                                                        Container(
+                                                            child: DefaultTextStyle(
+                                                                child: Text('BUBBLE TROUBLE'),
+                                                                style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PixeloidSans')
+                                                            )
+                                                        ),
+                                                        Container(
+                                                            child: Container(
+                                                                width: 85,
+                                                                height: 75,
+                                                                decoration: BoxDecoration(
+                                                                    image: DecorationImage(
+                                                                        image: AssetImage('assets/heart.png'),
+                                                                        fit: BoxFit.fill
+                                                                    )
+                                                                )
+                                                            )
+                                                        ),
+                                                        Container(
+                                                            child: DefaultTextStyle(
+                                                                child: Text('FLUTTER'),
+                                                                style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PixeloidSans')
+                                                            )
+                                                        ),
+                                                    ],
+                                              ),
                                             )
                                         ),
                                         MyBall(ballX: ballX, ballY: ballY),
