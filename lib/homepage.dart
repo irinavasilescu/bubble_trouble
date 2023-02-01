@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bubble_trouble/button.dart';
 import 'package:bubble_trouble/player.dart';
 import 'package:flutter/material.dart';
@@ -12,22 +14,43 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   // Player variables (for left-right movement)
-  double playerX = 0;
+  static double playerX = 0;
+
+  // Missile variables
+  double missileX = playerX;
+  double missileY = 1;
+  double missileHeight = 10;
 
   void moveLeft() {
     setState(() {
-      playerX -= 0.1;
+      missileX = playerX;
+      
+      if (playerX - 0.1 < -1) {
+        // do nothing
+      } else {
+        playerX -= 0.1;
+      }
     });
   }
 
   void moveRight() {
     setState(() {
-      playerX += 0.1;
+      missileX = playerX;
+
+      if (playerX + 0.1 > 1) {
+        // do nothing
+      } else {
+        playerX += 0.1;
+      }
     });
   }
 
   void fireMissile() {
-
+    Timer.periodic(Duration(milliseconds: 20), (timer) {
+      setState(() {
+        missileHeight += 10;
+      });
+    });
   }
 
   @override
@@ -57,6 +80,14 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Stack(
                   children: [
+                    Container(
+                      alignment: Alignment(missileX, missileY),
+                      child: Container(
+                        width: 2,
+                        height: missileHeight,
+                        color: Colors.grey
+                      ),
+                    ),
                     MyPlayer(
                       playerX: playerX
                     )
