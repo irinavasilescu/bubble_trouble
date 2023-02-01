@@ -36,12 +36,15 @@ class _HomePageState extends State<HomePage> {
   void startGame() {
     setState(() {
       Timer.periodic(Duration(milliseconds: 20), (timer) {
+        // if the ball hits the left wall, the change direction to right
         if (ballX - 0.02 < -1) {
           ballDirection = Direction.RIGHT;
+        // if the ball hits the right wall, the change direction to left
         } else if (ballX + 0.02 > 1) {
           ballDirection = Direction.LEFT;
         }
 
+        // move the ball in the correct direction
         if (ballDirection == Direction.LEFT) {
           setState(() {
             ballX -= 0.02;
