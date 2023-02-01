@@ -225,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                                                             child: Container(
                                                                 width: 85,
                                                                 height: 75,
+                                                                margin: EdgeInsets.symmetric(vertical: 10),
                                                                 decoration: BoxDecoration(
                                                                     image: DecorationImage(
                                                                         image: AssetImage('assets/heart.png'),
