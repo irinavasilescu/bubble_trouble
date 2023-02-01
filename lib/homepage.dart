@@ -13,6 +13,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+enum Direction {
+  LEFT,
+  RIGHT
+}
+
 class _HomePageState extends State<HomePage> {
 
   // Player variables (for left-right movement)
@@ -26,6 +31,29 @@ class _HomePageState extends State<HomePage> {
   // Ball variables
   double ballX = 0.5;
   double ballY = 0;
+  var ballDirection = Direction.LEFT;
+
+  void startGame() {
+    setState(() {
+      Timer.periodic(Duration(milliseconds: 20), (timer) {
+        if (ballX - 0.02 < -1) {
+          ballDirection = Direction.RIGHT;
+        } else if (ballX + 0.02 > 1) {
+          ballDirection = Direction.LEFT;
+        }
+
+        if (ballDirection == Direction.LEFT) {
+          setState(() {
+            ballX -= 0.02;
+          });
+        } else if (ballDirection == Direction.RIGHT) {
+          setState(() {
+            ballX += 0.02;
+          });
+        }
+      });
+    });
+  }
 
   void moveLeft() {
     setState(() {
@@ -70,11 +98,21 @@ class _HomePageState extends State<HomePage> {
           missileHeight += 10;
         });
 
+        // stop missile when it reaches the top of the screen
         if (missileHeight > MediaQuery.of(context).size.height * 3/4) { // because of flex: 3
           // stop missile
           resetMissile();
           timer.cancel();
           midShot = false;
+        }
+
+        // check if missile has hit the ball (top of the missile or the length of the missile touches the ball)
+        // we can't do ballX == missileX because of how doubles work,
+        // so we'll just check there is a very small error between them
+        if (ballY > heightToCoordinate(missileHeight) && (ballX - missileX).abs() < 0.03) {
+          resetMissile();
+          ballY = 5;
+          timer.cancel();
         }
       });
     }
@@ -83,6 +121,13 @@ class _HomePageState extends State<HomePage> {
   void resetMissile() {
     missileX = playerX;
     missileHeight = 10;
+  }
+
+  // converts height into a coordinate
+  double heightToCoordinate(double height) {
+    double totalHeight = MediaQuery.of(context).size.height * 3/4;
+    double missileY = 1 - 2 * height/totalHeight;
+    return missileY;
   }
 
   @override
@@ -134,6 +179,10 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  MyButton(
+                    icon: Icons.play_arrow,
+                    function: startGame,
+                  ),
                   MyButton(
                     icon: Icons.arrow_back,
                     function: moveLeft,
