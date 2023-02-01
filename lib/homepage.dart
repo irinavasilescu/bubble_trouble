@@ -30,31 +30,49 @@ class _HomePageState extends State<HomePage> {
 
   // Ball variables
   double ballX = 0.5;
-  double ballY = 0;
+  double ballY = 1;
   var ballDirection = Direction.LEFT;
 
   void startGame() {
-    setState(() {
-      Timer.periodic(Duration(milliseconds: 20), (timer) {
-        // if the ball hits the left wall, the change direction to right
-        if (ballX - 0.02 < -1) {
-          ballDirection = Direction.RIGHT;
-        // if the ball hits the right wall, the change direction to left
-        } else if (ballX + 0.02 > 1) {
-          ballDirection = Direction.LEFT;
-        }
+    double time = 0;
+    double height = 0;
+    double velocity = 60; // how strong the jump is
 
-        // move the ball in the correct direction
-        if (ballDirection == Direction.LEFT) {
-          setState(() {
-            ballX -= 0.02;
-          });
-        } else if (ballDirection == Direction.RIGHT) {
-          setState(() {
-            ballX += 0.02;
-          });
-        }
+    Timer.periodic(Duration(milliseconds: 10), (timer) {
+      // quadratic equation that models a bounce (upside down parabola)
+      height = -5 * time * time + velocity * time;
+
+      // if the ball reaches the ground, reset the jump
+      if (height < 0) {
+        time = 0;
+      }
+
+      // update the new ball position
+      setState(() {
+        ballY = heightToPosition(height);
       });
+
+      // if the ball hits the left wall, the change direction to right
+      if (ballX - 0.005 < -1) {
+        ballDirection = Direction.RIGHT;
+      // if the ball hits the right wall, the change direction to left
+      } else if (ballX + 0.005 > 1) {
+        ballDirection = Direction.LEFT;
+      }
+
+      // move the ball in the correct direction
+      if (ballDirection == Direction.LEFT) {
+        setState(() {
+          ballX -= 0.005;
+        });
+      } else if (ballDirection == Direction.RIGHT) {
+        setState(() {
+          ballX += 0.005;
+        });
+      }
+
+      // keep the time going
+      time += 0.1;
     });
   }
 
@@ -106,15 +124,14 @@ class _HomePageState extends State<HomePage> {
           // stop missile
           resetMissile();
           timer.cancel();
-          midShot = false;
         }
 
         // check if missile has hit the ball (top of the missile or the length of the missile touches the ball)
         // we can't do ballX == missileX because of how doubles work,
         // so we'll just check there is a very small error between them
-        if (ballY > heightToCoordinate(missileHeight) && (ballX - missileX).abs() < 0.03) {
+        if (ballY > heightToPosition(missileHeight) && (ballX - missileX).abs() < 0.03) {
           resetMissile();
-          ballY = 5;
+          ballX = 5;
           timer.cancel();
         }
       });
@@ -124,13 +141,14 @@ class _HomePageState extends State<HomePage> {
   void resetMissile() {
     missileX = playerX;
     missileHeight = 10;
+    midShot = false;
   }
 
   // converts height into a coordinate
-  double heightToCoordinate(double height) {
+  double heightToPosition(double height) {
     double totalHeight = MediaQuery.of(context).size.height * 3/4;
-    double missileY = 1 - 2 * height/totalHeight;
-    return missileY;
+    double position = 1 - 2 * height/totalHeight;
+    return position;
   }
 
   @override
