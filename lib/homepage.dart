@@ -23,34 +23,45 @@ class _HomePageState extends State<HomePage> {
 
   void moveLeft() {
     setState(() {
-      missileX = playerX;
-      
       if (playerX - 0.1 < -1) {
         // do nothing
       } else {
         playerX -= 0.1;
       }
+
+      missileX = playerX;
     });
   }
 
   void moveRight() {
     setState(() {
-      missileX = playerX;
-
       if (playerX + 0.1 > 1) {
         // do nothing
       } else {
         playerX += 0.1;
       }
+
+      missileX = playerX;
     });
   }
 
   void fireMissile() {
     Timer.periodic(Duration(milliseconds: 20), (timer) {
-      setState(() {
-        missileHeight += 10;
-      });
+      if (missileHeight > MediaQuery.of(context).size.height * 3/4) { // because of flex: 3
+        // stop missile
+        resetMissile();
+        timer.cancel();
+      } else {
+        setState(() {
+          missileHeight += 10;
+        });
+      }
     });
+  }
+
+  void resetMissile() {
+    missileX = playerX;
+    missileHeight = 10;
   }
 
   @override
