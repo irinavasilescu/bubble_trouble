@@ -33,7 +33,15 @@ class _HomePageState extends State<HomePage> {
     double ballY = 1;
     var ballDirection = Direction.LEFT;
 
+    bool pressedPlay = false;
+
     void startGame() {
+        if (pressedPlay) {
+            return;
+        }
+
+        pressedPlay = true;
+
         double time = 0;
         double height = 0;
         double velocity = 60; // how strong the jump is
@@ -73,8 +81,10 @@ class _HomePageState extends State<HomePage> {
 
             // check if ball hits the player
             if (playerDies()) {
+                ballX = 5;
                 timer.cancel();
-                _showDialog();
+                pressedPlay = false;
+                _showDialog('YOU ARE DEAD!');
             }
 
             // keep the time going
@@ -98,7 +108,7 @@ class _HomePageState extends State<HomePage> {
         startGame();
     }
     
-    void _showDialog() {
+    void _showDialog(String text) {
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -106,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: Colors.grey[700],
                     title: Center(
                         child: DefaultTextStyle(
-                            child: Text('YOU ARE DEAD!'),
+                            child: Text(text),
                             style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PixeloidSans')
                         )
                     ),
@@ -182,6 +192,8 @@ class _HomePageState extends State<HomePage> {
                     resetMissile();
                     ballX = 5;
                     timer.cancel();
+                    pressedPlay = false;
+                    _showDialog('YOU WON!');
                 }
             });
         }
@@ -219,12 +231,18 @@ class _HomePageState extends State<HomePage> {
             onKey: (RawKeyEvent event) {
                 if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
                     moveLeft();
-                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
+                }
+                
+                if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
                     moveRight();
                 }
 
                 if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
                     fireMissile();
+                }
+
+                if (event.isKeyPressed(LogicalKeyboardKey.space)) {
+                    startGame();
                 }
             },
             child: Column(
