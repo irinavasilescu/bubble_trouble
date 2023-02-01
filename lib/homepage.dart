@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
     // Missile variables
     double missileX = playerX;
-    double missileHeight = 10;
+    double missileHeight = 0;
     bool midShot = false;
 
     // Ball variables
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
 
     void resetMissile() {
         missileX = playerX;
-        missileHeight = 10;
+        missileHeight = 0;
         midShot = false;
     }
 
@@ -196,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                     moveRight();
                 }
 
-                if (event.isKeyPressed(LogicalKeyboardKey.space)) {
+                if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
                     fireMissile();
                 }
             },

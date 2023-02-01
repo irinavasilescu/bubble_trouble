@@ -13,8 +13,8 @@ class MyPlayer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                     // color: Colors.deepPurple,
-                    height: 50,
-                    width: 50,
+                    height: 100,
+                    width: 75,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/alien.png'),

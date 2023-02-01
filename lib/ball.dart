@@ -11,8 +11,8 @@ class MyBall extends StatelessWidget {
         return Container(
             alignment: Alignment(ballX, ballY),
             child: Container(
-                width: 20,
-                height: 20,
+                width: 25,
+                height: 25,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/star.png'),
