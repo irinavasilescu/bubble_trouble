@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bubble_trouble/button.dart';
+import 'package:bubble_trouble/missile.dart';
 import 'package:bubble_trouble/player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,8 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   // Missile variables
   double missileX = playerX;
-  double missileY = 1;
   double missileHeight = 10;
+  bool midShot = false;
 
   void moveLeft() {
     setState(() {
@@ -29,7 +30,11 @@ class _HomePageState extends State<HomePage> {
         playerX -= 0.1;
       }
 
-      missileX = playerX;
+      // adjust missile position only when the player is not in the middle of a shot
+      // it won't follow us during moving, it continue shooting from the position it was fired
+      if (!midShot) {
+        missileX = playerX;
+      }
     });
   }
 
@@ -41,22 +46,33 @@ class _HomePageState extends State<HomePage> {
         playerX += 0.1;
       }
 
-      missileX = playerX;
+      // adjust missile position only when the player is not in the middle of a shot
+      // it won't follow us during moving, it continue shooting from the position it was fired
+      if (!midShot) {
+        missileX = playerX;
+      }
     });
   }
 
   void fireMissile() {
-    Timer.periodic(Duration(milliseconds: 20), (timer) {
-      if (missileHeight > MediaQuery.of(context).size.height * 3/4) { // because of flex: 3
-        // stop missile
-        resetMissile();
-        timer.cancel();
-      } else {
+    if (midShot == false) {
+      Timer.periodic(Duration(milliseconds: 20), (timer) {
+        // shots fired
+        midShot = true;
+
+        // missile grows until it hits the top of the screen
         setState(() {
           missileHeight += 10;
         });
-      }
-    });
+
+        if (missileHeight > MediaQuery.of(context).size.height * 3/4) { // because of flex: 3
+          // stop missile
+          resetMissile();
+          timer.cancel();
+          midShot = false;
+        }
+      });
+    }
   }
 
   void resetMissile() {
@@ -91,13 +107,9 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Stack(
                   children: [
-                    Container(
-                      alignment: Alignment(missileX, missileY),
-                      child: Container(
-                        width: 2,
-                        height: missileHeight,
-                        color: Colors.grey
-                      ),
+                    MyMissile(
+                      height: missileHeight,
+                      missileX: missileX
                     ),
                     MyPlayer(
                       playerX: playerX
