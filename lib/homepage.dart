@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bubble_trouble/ball.dart';
 import 'package:bubble_trouble/button.dart';
 import 'package:bubble_trouble/missile.dart';
 import 'package:bubble_trouble/player.dart';
@@ -21,6 +22,10 @@ class _HomePageState extends State<HomePage> {
   double missileX = playerX;
   double missileHeight = 10;
   bool midShot = false;
+
+  // Ball variables
+  double ballX = 0.5;
+  double ballY = 0;
 
   void moveLeft() {
     setState(() {
@@ -107,6 +112,10 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Stack(
                   children: [
+                    MyBall(
+                      ballX: ballX,
+                      ballY: ballY
+                    ),
                     MyMissile(
                       height: missileHeight,
                       missileX: missileX
