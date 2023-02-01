@@ -81,6 +81,22 @@ class _HomePageState extends State<HomePage> {
             time += 0.1;
         });
     }
+
+    void restartGame() {
+        // close dialog
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+
+        // reinitialize all variables
+        playerX = 0;
+        missileX = playerX;
+        missileHeight = 0;
+        midShot = false;
+        ballX = 0.5;
+        ballY = 1;
+        ballDirection = Direction.LEFT;
+
+        startGame();
+    }
     
     void _showDialog() {
         showDialog(
@@ -89,9 +105,19 @@ class _HomePageState extends State<HomePage> {
                 return AlertDialog(
                     backgroundColor: Colors.grey[700],
                     title: Center(
-                        child: Text(
-                            'You are dead!',
-                            style: TextStyle(color: Colors.white)
+                        child: DefaultTextStyle(
+                            child: Text('YOU ARE DEAD!'),
+                            style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PixeloidSans')
+                        )
+                    ),
+                    content: Container(
+                        height: 50,
+                        child: Center(
+                            child: MyButton(
+                                text: 'Restart',
+                                textColor: Colors.green,
+                                function: restartGame,
+                            ),
                         )
                     )
                 );
