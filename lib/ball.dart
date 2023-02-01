@@ -14,9 +14,11 @@ class MyBall extends StatelessWidget {
                 width: 20,
                 height: 20,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.brown
-                ),
+                    image: DecorationImage(
+                        image: AssetImage('assets/star.png'),
+                        fit: BoxFit.fill
+                    )
+                )
             ),
         );
     }

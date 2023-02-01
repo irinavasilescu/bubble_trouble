@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                         flex: 3, // This container takes up 75% of the space
                         child: Container(
-                            color: Colors.pink[100],
+                            color: Colors.blue[900],
                             child: Center(
                                 child: Stack(
                                     children: [
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Expanded(
                         child: Container(
-                            color: Colors.grey,
+                            color: Colors.green,
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
