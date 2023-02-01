@@ -70,9 +70,32 @@ class _HomePageState extends State<HomePage> {
                 });
             }
 
+            // check if ball hits the player
+            if (playerDies()) {
+                timer.cancel();
+                _showDialog();
+            }
+
             // keep the time going
             time += 0.1;
         });
+    }
+    
+    void _showDialog() {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+                return AlertDialog(
+                    backgroundColor: Colors.grey[700],
+                    title: Center(
+                        child: Text(
+                            'You are dead!',
+                            style: TextStyle(color: Colors.white)
+                        )
+                    )
+                );
+            }
+        );
     }
 
     void moveLeft() {
@@ -148,6 +171,15 @@ class _HomePageState extends State<HomePage> {
         double totalHeight = MediaQuery.of(context).size.height * 3 / 4;
         double position = 1 - 2 * height / totalHeight;
         return position;
+    }
+
+    bool playerDies() {
+        // if the ball position and the player position are the same, then the player dies
+        if ((ballX - playerX).abs() < 0.05 && ballY > 0.95) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @override
